@@ -9,9 +9,45 @@ const SECTIONS = {
     lightBg: "#eef2ff",
     borderColor: "#c7d2fe",
     categories: [
-      { id: "seating_arrangement", label: "Seating Arrangement", icon: "⊞", desc: "Arrange persons based on given conditions" },
-      { id: "syllogisms", label: "Syllogisms", icon: "∴", desc: "Logical conclusions from given statements" },
-      { id: "coding_decoding", label: "Coding & Decoding", icon: "⌘", desc: "Decode patterns and cipher logic" },
+      { 
+        id: "seating_arrangement", 
+        label: "Seating Arrangement", 
+        icon: "⊞", 
+        desc: "Arrange persons based on given conditions",
+        rules: [
+          "Draw a diagram (line or circle) before reading clues",
+          "Fix one person first, then place others relatively",
+          "In circular arrangements, positions are relative not absolute",
+          "Re-read each clue after placing every person",
+          "Eliminate options that contradict even one clue",
+        ]
+      },
+      { 
+        id: "syllogisms", 
+        label: "Syllogisms", 
+        icon: "∴", 
+        desc: "Logical conclusions from given statements",
+        rules: [
+          "Draw Venn diagrams for All, Some, No statements",
+          "'All A is B' does NOT mean 'All B is A'",
+          "'Some A is B' means at least one, possibly all",
+          "'No A is B' is always reversible: 'No B is A'",
+          "A conclusion must be true in ALL possible diagrams",
+        ]
+      },
+      { 
+        id: "coding_decoding", 
+        label: "Coding & Decoding", 
+        icon: "⌘", 
+        desc: "Decode patterns and cipher logic",
+        rules: [
+          "Find the pattern by comparing input and output letters",
+          "Check if letters are shifted forward or backward",
+          "Look for position-based patterns (1st, 2nd, 3rd letter)",
+          "Numbers may replace letters by their alphabet position",
+          "Sometimes alternate letters or words are coded differently",
+        ]
+      },
     ],
   },
   analytical: {
@@ -20,9 +56,45 @@ const SECTIONS = {
     lightBg: "#ecfeff",
     borderColor: "#a5f3fc",
     categories: [
-      { id: "clocks", label: "Clocks", icon: "◷", desc: "Angles, hands and time calculations" },
-      { id: "calendars", label: "Calendars", icon: "▦", desc: "Days, dates and odd days problems" },
-      { id: "logical_deduction", label: "Logical Deduction", icon: "⊢", desc: "Draw valid conclusions from premises" },
+      { 
+        id: "clocks", 
+        label: "Clocks", 
+        icon: "◷", 
+        desc: "Angles, hands and time calculations",
+        rules: [
+          "Hour hand moves 0.5° per minute (30° per hour)",
+          "Minute hand moves 6° per minute (360° per hour)",
+          "Angle between hands = |30H - 5.5M|",
+          "Hands overlap every 65 5/11 minutes",
+          "For mirror image: subtract time from 11:60",
+        ]
+      },
+      { 
+        id: "calendars", 
+        label: "Calendars", 
+        icon: "▦", 
+        desc: "Days, dates and odd days problems",
+        rules: [
+          "Ordinary year = 365 days = 52 weeks + 1 odd day",
+          "Leap year = 366 days = 52 weeks + 2 odd days",
+          "Century year is leap only if divisible by 400",
+          "100 years = 5 odd days, 200 = 3, 300 = 1, 400 = 0",
+          "Jan 1, 1900 was a Monday — use as reference point",
+        ]
+      },
+      { 
+        id: "logical_deduction", 
+        label: "Logical Deduction", 
+        icon: "⊢", 
+        desc: "Draw valid conclusions from premises",
+        rules: [
+          "Only conclude what is 100% guaranteed by the facts",
+          "Do not use outside knowledge — only given statements",
+          "Watch for words: all, some, none, always, never, only",
+          "A conclusion that is 'likely' or 'possible' is not valid",
+          "Negate each option and check if it contradicts the facts",
+        ]
+      },
     ],
   },
 };
