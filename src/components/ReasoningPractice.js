@@ -436,6 +436,19 @@ export default function ReasoningPractice() {
               </div>
             ))}
           </div>
+          {selectedCat?.rules && (
+  <div style={{ background: "white", border: `1.5px solid ${sectionData.borderColor}`, borderRadius: 14, padding: "1.25rem", marginBottom: "1.5rem" }}>
+    <div style={{ fontFamily: "'Source Sans 3',sans-serif", fontSize: 10, fontWeight: 700, color: sectionData.color, letterSpacing: 2, textTransform: "uppercase", marginBottom: 10 }}>
+      📌 Rules to Remember
+    </div>
+    {selectedCat.rules.map((rule, i) => (
+      <div key={i} style={{ display: "flex", alignItems: "flex-start", gap: 10, marginBottom: 8 }}>
+        <span style={{ width: 22, height: 22, borderRadius: "50%", background: sectionData.lightBg, border: `1px solid ${sectionData.borderColor}`, display: "flex", alignItems: "center", justifyContent: "center", fontSize: 11, fontWeight: 700, color: sectionData.color, flexShrink: 0 }}>{i + 1}</span>
+        <span style={{ fontFamily: "'Source Sans 3',sans-serif", fontSize: 13, color: "#374151", lineHeight: 1.6 }}>{rule}</span>
+      </div>
+    ))}
+  </div>
+)}
 
           {error && <div style={{ color: "#dc2626", fontSize: 13, fontFamily: "'Source Sans 3',sans-serif", marginBottom: 10 }}>{error}</div>}
 
