@@ -324,7 +324,7 @@ export default function ReasoningPractice() {
               Reasoning Practice
             </h1>
             <p style={{ fontFamily: "'Source Sans 3',sans-serif", fontSize: 14, color: "#64748b", fontWeight: 300, lineHeight: 1.7, margin: 0 }}>
-              AI-generated placement prep questions. Pick a section, choose a topic and start practising.
+              AI-generated placement prep questions. Pick a section, choose a topic and start practicing.
             </p>
           </div>
 
