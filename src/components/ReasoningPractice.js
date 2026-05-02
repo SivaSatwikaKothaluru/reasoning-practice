@@ -152,25 +152,27 @@ export default function ReasoningPractice() {
   const timerRef = useRef(null);
   const startTimeRef = useRef(null);
   const revealedRef = useRef(false);
-
+const activeSectionRef = useRef("verbal");  
   const maxTime = difficulty === "Easy" ? 40 : difficulty === "Medium" ? 60 : 90;
   const sectionData = SECTIONS[activeSectionKey];
-
-  const fetchQuestion = useCallback(async (catId, diff) => {
+const fetchQuestion = useCallback(async (catId, diff, section) => {
     const res = await fetch("/api/generate", {
       method: "POST",
       headers: { "Content-Type": "application/json" },
       body: JSON.stringify({
-        model: "claude-sonnet-4-20250514",
+        model: "llama-3.3-70b-versatile",
         max_tokens: 1000,
+        section: section,
         messages: [{ role: "user", content: buildPrompt(catId, diff) }],
       }),
     });
     const data = await res.json();
+    console.log("API response:", data);  // ← add this
     if (data.error) throw new Error(data.error);
     const raw = data.content?.find(b => b.type === "text")?.text || "{}";
+    console.log("Raw text:", raw);  // ← add this
     return JSON.parse(raw.replace(/```json|```/g, "").trim());
-  }, []);
+}, []);
 
   const startQuiz = useCallback(async () => {
     setGenerating(true);
@@ -179,8 +181,8 @@ export default function ReasoningPractice() {
     const qs = [];
     try {
       for (let i = 0; i < qCount; i++) {
-        const q = await fetchQuestion(selectedCat.id, difficulty);
-        qs.push(q);
+    const q = await fetchQuestion(selectedCat.id, difficulty, activeSectionRef.current); 
+    qs.push(q);
         setGenProgress(Math.round(((i + 1) / qCount) * 100));
       }
       setQuestions(qs);
@@ -259,9 +261,10 @@ export default function ReasoningPractice() {
   const openCat = (cat, sKey) => {
     setSelectedCat(cat);
     setActiveSectionKey(sKey);
+    activeSectionRef.current = sKey; // ← add this line
     setScreen("config");
     setError("");
-  };
+};
 
   const q = questions[current];
   const pct = questions.length ? Math.round((score / questions.length) * 100) : 0;
@@ -299,19 +302,7 @@ export default function ReasoningPractice() {
 
   return (
     <div style={{ minHeight: "100vh", background: "#f8fafc", fontFamily: "'Georgia',serif" }}>
-      <style>{`
-        @import url('https://fonts.googleapis.com/css2?family=Playfair+Display:wght@600;700&family=Source+Sans+3:wght@300;400;500;600&display=swap');
-        *{box-sizing:border-box;}
-        .rbtn{cursor:pointer;border:none;outline:none;transition:all 0.18s;}
-        .rbtn:hover{opacity:0.88;transform:translateY(-1px);}
-        .rbtn:active{transform:scale(0.97);}
-        .cat-card{cursor:pointer;transition:all 0.2s;border-radius:14px;padding:1.1rem 1.2rem;background:white;}
-        .cat-card:hover{transform:translateY(-2px);box-shadow:0 6px 20px rgba(0,0,0,0.09);}
-        .opt-row{cursor:pointer;display:flex;align-items:flex-start;gap:12px;width:100%;border-radius:11px;padding:13px 15px;transition:all 0.15s;text-align:left;font-family:inherit;}
-        .opt-row:hover:not([disabled]){transform:translateX(3px);}
-        .tab-btn{cursor:pointer;padding:9px 22px;border-radius:9px;font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;border:none;transition:all 0.2s;}
-        .diff-chip{cursor:pointer;border:none;border-radius:8px;padding:7px 18px;font-family:'Source Sans 3',sans-serif;font-size:13px;font-weight:500;transition:all 0.15s;}
-      `}</style>
+      
 
       {/* ── HOME ── */}
       {screen === "home" && (

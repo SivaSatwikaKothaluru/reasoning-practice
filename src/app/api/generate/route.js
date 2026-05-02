@@ -1,8 +1,17 @@
 export async function POST(request) {
-  console.log("API route hit!");
+
   try {
     const body = await request.json();
     const prompt = body.messages[0].content;
+    const section = body.section; // "verbal" or "analytical"
+
+    // Pick key based on section
+    const apiKey = section === "analytical"
+      ? process.env.GROQ_API_KEY_ANALYTICAL
+      : process.env.GROQ_API_KEY_VERBAL;
+
+      console.log("Section:", section);
+console.log("Using key:", apiKey?.slice(0, 15));
 
     const response = await fetch(
       "https://api.groq.com/openai/v1/chat/completions",
@@ -10,7 +19,7 @@ export async function POST(request) {
         method: "POST",
         headers: {
           "Content-Type": "application/json",
-          "Authorization": `Bearer ${process.env.GROQ_API_KEY}`,
+          Authorization: `Bearer ${apiKey}`,  // ← uses section-specific key
         },
         body: JSON.stringify({
           model: "llama-3.3-70b-versatile",
